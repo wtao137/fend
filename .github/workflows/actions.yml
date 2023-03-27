@@ -28,22 +28,22 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-#       - name: Install Rust toolchain
-#         uses: dtolnay/rust-toolchain@stable
-#         with:
-#           targets: x86_64-unknown-linux-musl
-
-#       - name: Install cross
-#         uses: taiki-e/install-action@v2
-#         with:
-#           tool: cross
-
       - name: Install Rust toolchain
-        uses: briansmith/actions-rs-toolchain@v1
+        uses: dtolnay/rust-toolchain@stable
         with:
-          override: true
-          target: x86_64-unknown-linux-musl
-          toolchain: stable
+          targets: x86_64-unknown-linux-musl
+
+      - name: Install cross
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cross
+
+#       - name: Install Rust toolchain
+#         uses: briansmith/actions-rs-toolchain@v1
+#         with:
+#           override: true
+#           target: x86_64-unknown-linux-musl
+#           toolchain: stable
 
 #       - name: Overwrite build command env variable
 #         shell: bash
@@ -62,7 +62,8 @@ jobs:
       - name: Build, get version
         run: |
           sudo apt update && sudo apt install -y musl-tools
-          RUST_BACKTRACE=full cargo build --locked --release --package fend --target x86_64-unknown-linux-musl
+          cargo build --locked --release --package fend --target x86_64-unknown-linux-musl
+          echo "FEND_VERSION=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages | .[0].version')" >> $GITHUB_ENV
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
