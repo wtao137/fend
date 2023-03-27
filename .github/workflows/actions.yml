@@ -14,14 +14,14 @@ jobs:
   build:
     strategy:
       matrix:
-        platform: [ubuntu-20.04]
+        platform: [ubuntu-22.04]
         include:
-          - platform: ubuntu-20.04
+          - platform: ubuntu-22.04
             artifact-path: target/release/fend
             artifact-platform-name: linux-x64
             env-command: ">> $GITHUB_ENV"
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     timeout-minutes: 20
 
@@ -61,8 +61,7 @@ jobs:
 
       - name: Build, get version
         run: |
-          echo "RUST_BACKTRACE=1" >> $GITHUB_ENV
-          cargo build --locked --release --package fend --target x86_64-unknown-linux-musl
+          RUST_BACKTRACE=1 cargo build --locked --release --package fend --target x86_64-unknown-linux-musl
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
