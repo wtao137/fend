@@ -61,8 +61,8 @@ jobs:
 
       - name: Build, get version
         run: |
-          apt update && apt install -y musl-tools
-          RUST_BACKTRACE=1 cargo build --locked --release --package fend --target x86_64-unknown-linux-musl
+          sudo apt update && sudo apt install -y musl-tools
+          RUST_BACKTRACE=full cargo build --locked --release --package fend --target x86_64-unknown-linux-musl
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
