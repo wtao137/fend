@@ -64,14 +64,11 @@ jobs:
           sudo apt update && sudo apt install -y musl-tools tree
           cargo build --locked --release --package fend --target x86_64-unknown-linux-musl
           echo "FEND_VERSION=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages | .[0].version')" >> $GITHUB_ENV
-          tree
-          pwd
-          ls cli
 
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
           name: fend-${{ env.FEND_VERSION }}-linux-x64
-          path: target/release/fend
+          path: target/x86_64-unknown-linux-musl/release/fend
           if-no-files-found: error
