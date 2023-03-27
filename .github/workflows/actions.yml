@@ -59,6 +59,7 @@ jobs:
           rustup default
           cargo -V
           rustc -V
+          rustup -V
 
       - name: Build, get version
         run: |
